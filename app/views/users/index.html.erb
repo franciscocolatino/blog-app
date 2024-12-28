@@ -1,18 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<h1>
-  Olá <%= @current_user.name %>
-</h1>
-<h1>Users</h1>
+<div class="container mt-4">
+  <h1 class="text-center">Usuários</h1>
 
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
+  <div class="mt-4 d-flex justify-content-between">
+    <%= link_to "Novo Usuário", new_user_path, class: "btn btn-primary" %>
+    <%= button_to "Logout", logout_path, method: :get, class: "btn btn-danger" %>
+  </div>
+  <div id="users" class="list-group mt-3">
+    <% @users.each do |user| %>
+      <div class="list-group-item">
+        <%= render user %>
+        <div class="text-right mt-2">
+          <%= link_to "Mostrar este usuário", user, class: "btn btn-info btn-sm" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
-
-<%= link_to "New user", new_user_path %>
-<%= button_to "Logout", logout_path, method: :get %>

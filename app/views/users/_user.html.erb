@@ -1,17 +1,18 @@
-<div id="<%= dom_id user %>">
-  <p>
-    <strong>Name:</strong>
-    <%= user.name %>
-  </p>
+<div id="<%= dom_id user %>" class="card mb-3">
+  <div class="card-body">
+    <p class="card-text">
+      <strong>Nome:</strong>
+      <%= user.name %>
+    </p>
 
-  <p>
-    <strong>Username:</strong>
-    <%= user.username %>
-  </p>
+    <p class="card-text">
+      <strong>Usuário:</strong>
+      <%= user.username %>
+    </p>
 
-  <p>
-    <strong>Password digest:</strong>
-    <%= user.password_digest %>
-  </p>
-
+    <p class="card-text">
+      <strong>Senha (hash):</strong>
+      <%= user.password_digest %>
+    </p>
+  </div>
 </div>

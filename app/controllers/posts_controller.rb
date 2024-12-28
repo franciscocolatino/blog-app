@@ -8,14 +8,16 @@ class PostsController < ApplicationController
     limit = params[:limit].to_i > 0 ? params[:limit].to_i : 3
     offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0
 
-    @posts = Post.joins(:comments)
+    @posts = Post.left_joins(:comments)
                  .group("posts.id, posts.content, posts.title,
                  posts.created_at, posts.updated_at, posts.user_id")
                  .order(created_at: :desc)
                  .select("posts.*, json_agg(comments.*) as comments")
                  .limit(limit)
                  .offset(offset)
-    @total_posts = Post.joins(:comments).count
+    @total_posts = Post.left_joins(:comments).count
+    p '---------'
+    p @posts
   end
 
   # GET /posts/1 or /posts/1.json
@@ -34,6 +36,7 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
+    @post.user_id = @current_user.id
 
     respond_to do |format|
       if @post.save

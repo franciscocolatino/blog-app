@@ -1,0 +1,43 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Posts</h1>
+
+<div id="posts" style="display: flex; flex-direction: column; gap: 20px;">
+  <% @posts.each do |post| %>
+    <div style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; background-color: #f9f9f9;">
+      <h2><%= post.title %></h2>
+      <p><%= truncate(post.content, length: 200) %></p>
+      <p style="font-size: 0.8em; color: gray;">
+        Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
+      </p>
+
+      <button onclick="toggleComments(<%= post.id %>)" style="margin-top: 10px;">
+        Mostrar Comentários
+      </button>
+      <div id="comments-<%= post.id %>" style="display: none; margin-top: 10px; padding: 10px; background-color: #e9e9e9;">
+        <% JSON.parse(post.comments).each do |comment| %>
+          <p><strong>Comentário:</strong> <%= comment['content'] %></p>
+        <% end %>
+      </div>
+
+      <p>
+        <%= link_to "Show this post", post %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<div style="margin-top: 20px; display: flex; justify-content: space-between;">
+  <% prev_offset = [params[:offset].to_i - params[:limit].to_i, 0].max %>
+  <% next_offset = params[:offset].to_i + params[:limit].to_i %>
+  
+  <% if params[:offset].to_i > 0 %>
+    <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "button" %>
+  <% end %>
+
+  <% if next_offset < @total_posts %>
+    <%= link_to "Próximo", posts_path(limit: params[:limit], offset: next_offset), class: "button" %>
+  <% end %>
+</div>
+
+<%= link_to "New post", new_post_path, style: "display: block; margin-top: 20px;" %>

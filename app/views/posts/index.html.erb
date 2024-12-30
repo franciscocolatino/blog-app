@@ -14,12 +14,22 @@
           Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
         </p>
 
-        <button class="btn btn-secondary btn-sm mt-2" onclick="toggleComments(<%= post.id %>)">
+        <button class="btn btn-secondary btn-sm mt-2" onclick="toggleComments('<%= post.id %>')">
           Mostrar Comentários
         </button>
         <div id="comments-<%= post.id %>" class="bg-light p-2 mt-2 d-none">
-          <% post.comments&.each do |comment| %>
+          <% post.comments_array&.compact&.each do |comment| %>
             <p><strong>Comentário:</strong> <%= comment['content'] %></p>
+          <% end %>
+
+          <%= form_with(url: comments_path, method: :post, local: true, class: "mt-3") do |form| %>
+            <div class="form-group">
+              <%= form.hidden_field :post_id, value: post.id %>
+              <%= form.text_area :content, class: "form-control", placeholder: "Escreva seu comentário aqui...", rows: 3 %>
+            </div>
+            <div class="form-group mt-2">
+              <%= form.submit "Adicionar Comentário", class: "btn btn-primary btn-sm" %>
+            </div>
           <% end %>
         </div>
 
@@ -32,16 +42,24 @@
 </div>
 
 <div class="mt-4 d-flex justify-content-between">
-  <% prev_offset = [params[:offset].to_i - params[:limit].to_i, 0].max %>
-  <% next_offset = params[:offset].to_i + params[:limit].to_i %>
-  
+  <% prev_offset = params[:offset].to_i - (params[:limit] || 3).to_i %>
+  <% next_offset = params[:offset].to_i + (params[:limit] || 3).to_i %>
+
   <% if params[:offset].to_i > 0 %>
     <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "btn btn-outline-primary" %>
   <% end %>
 
-  <% if next_offset < @total_posts %>
+  <% if next_offset < @posts.first.total_posts %>
+  
     <%= link_to "Próximo", posts_path(limit: params[:limit], offset: next_offset), class: "btn btn-outline-primary" %>
   <% end %>
 </div>
 
-<%= link_to "New post", new_post_path, class: "btn btn-success mt-3" %>
+<%# link_to "New post", new_post_path, class: "btn btn-success mt-3" %>
+
+<script>
+  function toggleComments(postId) {
+    const commentsDiv = document.getElementById(`comments-${postId}`);
+    commentsDiv.classList.toggle('d-none');
+  }
+</script>

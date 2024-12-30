@@ -12,12 +12,12 @@ class PostsController < ApplicationController
                  .group("posts.id, posts.content, posts.title,
                  posts.created_at, posts.updated_at, posts.user_id")
                  .order(created_at: :desc)
-                 .select("posts.*, json_agg(comments.*) as comments")
+                 .select("posts.*,
+                          JSON_AGG(comments.*) AS comments_array,
+                          COUNT(*) OVER() AS total_posts")
                  .limit(limit)
                  .offset(offset)
-    @total_posts = Post.left_joins(:comments).count
-    p '---------'
-    p @posts
+    p @posts.as_json
   end
 
   # GET /posts/1 or /posts/1.json
@@ -80,6 +80,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :content, :user_id)
+      params.require(:post).permit(:title, :content)
     end
 end

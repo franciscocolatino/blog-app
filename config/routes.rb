@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#index'
   post '/login', to: 'login#login'
   get 'logout', to: 'login#logout'
+  post '/comments', to: 'comments#create'
 end

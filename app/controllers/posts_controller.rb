@@ -8,16 +8,22 @@ class PostsController < ApplicationController
     limit = params[:limit].to_i > 0 ? params[:limit].to_i : 3
     offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0
 
-    @posts = Post.left_joins(:comments)
-                 .group("posts.id, posts.content, posts.title,
-                 posts.created_at, posts.updated_at, posts.user_id")
-                 .order(created_at: :desc)
-                 .select("posts.*,
-                          JSON_AGG(comments.*) AS comments_array,
+    @posts = Post.order(created_at: :desc)
+                  .select("posts.*,
+                          (
+                            SELECT json_agg(subquery)
+                            FROM (
+                              SELECT *, users.name AS user_name
+                              FROM comments c
+                              LEFT JOIN users ON c.user_id = users.id
+                              WHERE c.post_id = posts.id
+                              ORDER BY c.created_at DESC
+                              LIMIT 5
+                            ) subquery
+                          ) AS comments_array,
                           COUNT(*) OVER() AS total_posts")
-                 .limit(limit)
-                 .offset(offset)
-    p @posts.as_json
+                  .limit(limit)
+                  .offset(offset)
   end
 
   # GET /posts/1 or /posts/1.json

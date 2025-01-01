@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   root to: "posts#index"
 
   get '/login', to: 'sessions#index'
-  post '/login', to: 'login#login'
-  get 'logout', to: 'login#logout'
+  post '/login', to: 'sessions#login'
+  get '/logout', to: 'sessions#logout'
 end

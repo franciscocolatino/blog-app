@@ -27,7 +27,6 @@ class Users::CheckAuth
   def get_token
     return cookies.encrypted[:auth_token].split(' ').last if cookies.encrypted[:auth_token].present?
 
-    errors.add(:token, 'Missing token')
     nil
   end
 end

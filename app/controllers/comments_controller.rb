@@ -1,6 +1,4 @@
 class CommentsController < ApplicationController
-  skip_before_action :authenticate_request, only: [:index, :create]
-
   def index
     limit = params[:limit].to_i > 0 ? params[:limit].to_i : 5
     offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0
@@ -20,7 +18,9 @@ class CommentsController < ApplicationController
     comment.user_id = @current_user.id if @current_user
     comment.save!
 
-    comments = Comment.where(post_id: comment.post_id)
+    comments = Comment.select("comments.*, users.name AS user_name")
+                      .left_joins(:user)
+                      .where(post_id: comment.post_id)
                       .order(created_at: :desc)
                       .limit(5)
 

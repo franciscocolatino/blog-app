@@ -1,27 +1,29 @@
-<%= form_with(model: post) do |form| %>
-  <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<div class="container mt-4">
+  <%= form_with(model: post, local: true, class: "needs-validation") do |form| %>
+    <% if post.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">
+          <%= pluralize(post.errors.count, "erro") %> impediram este post de ser salvo:
+        </h4>
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="mb-3">
+      <%= form.label :title, "Título", class: "form-label" %>
+      <%= form.text_field :title, class: "form-control", placeholder: "Digite o título do post", required: true %>
     </div>
+
+    <div class="mb-3">
+      <%= form.label :content, "Conteúdo", class: "form-label" %>
+      <%= form.text_area :content, class: "form-control", placeholder: "Escreva o conteúdo aqui...", rows: 5, required: true %>
+    </div>
+
+    <%= form.submit "Salvar Post", class: "btn btn-primary" %>
+
   <% end %>
-
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.label :content, style: "display: block" %>
-    <%= form.text_area :content %>
-  </div>
-  
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

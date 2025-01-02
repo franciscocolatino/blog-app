@@ -2,9 +2,12 @@
   <p class="alert alert-success"><%= notice %></p>
 <% end %>
 
-<h1>Posts</h1>
 
-<div id="posts" class="d-flex flex-column gap-3">
+<div id="posts" class="container d-flex flex-column gap-3">
+  <!-- Título melhorado -->
+  <h1 class="text-center display-4">Posts</h1>
+
+  <!-- Exibindo os posts -->
   <% @posts.each do |post| %>
     <div class="card">
       <div class="card-body">
@@ -14,15 +17,22 @@
           Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
         </p>
         <button class="btn btn-secondary btn-sm mt-2" onclick="toggleComments('<%= post.id %>')">
-            Mostrar Comentários
+          Mostrar Comentários
         </button>
         <div id="postId-<%= post.id %>" class="bg-light p-2 mt-2 d-none">
-            <%= render 'comments/dropdown', comments: post.comments_array, post_id: post.id %>
+          <%= render 'comments/dropdown', comments: post.comments_array, post_id: post.id %>
         </div>
         <p class="mt-3">
-          <%= link_to "Show this post", post, class: "btn btn-primary btn-sm" %>
+          <%= link_to "Editar esse post", edit_post_path(post), class: "btn btn-primary btn-sm" %>
         </p>
       </div>
+    </div>
+  <% end %>
+
+    <!-- Botão para criar post, visível apenas para o usuário autenticado -->
+  <% if @current_user %>
+    <div class="text-center mb-4">
+      <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
     </div>
   <% end %>
 </div>

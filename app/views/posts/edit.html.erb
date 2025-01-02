@@ -1,10 +1,38 @@
-<h1>Editing post</h1>
+<div class="mb-4">
+  <h1 class="display-5 text-center text-primary">Editando Post</h1>
+</div>
 
 <%= render "form", post: @post %>
 
-<br>
+<div class="container mt-2">
+  <div>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+      Excluir Post
+    </button>
+  </div>
+  <div class="mt-2">
+    <%= link_to "Voltar para Posts", posts_path, class: "btn btn-secondary" %>
+  </div>
+</div>
 
-<div>
-  <%= link_to "Show this post", @post %> |
-  <%= link_to "Back to posts", posts_path %>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="deleteModalLabel">Confirmação de Exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza de que deseja excluir este post?</p>
+        <p class="text-danger">Esta ação irá remover permanentemente o post e todos os seus comentários associados.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+        <%= button_to "Excluir Post", post_path(@post), 
+                method: :delete, 
+                class: "btn btn-danger" %>
+      </div>
+    </div>
+  </div>
 </div>

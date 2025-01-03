@@ -1,18 +1,21 @@
-<% if notice %>
-  <p class="alert alert-success"><%= notice %></p>
-<% end %>
-
-
 <div id="posts" class="container d-flex flex-column gap-3">
-  <!-- Título melhorado -->
   <h1 class="text-center display-4">Posts</h1>
-
-  <!-- Exibindo os posts -->
+  
   <% @posts.each do |post| %>
     <div class="card">
       <div class="card-body">
+
+        <% if post.id.to_s == params[:postIdActionNow] %>
+          <div class="alert alert-success" role="alert">
+            <%= notice %>
+          </div>
+        <% end %>
+
         <h2 class="card-title"><%= post.title %></h2>
-        <p class="card-text"><%= truncate(post.content, length: 200) %></p>
+        <p class="card-text" style="white-space: pre-wrap;">
+          <%= post.content.delete_prefix('"').delete_suffix('"') %>
+        </p>
+        
         <p class="text-muted" style="font-size: 0.8em;">
           Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
         </p>
@@ -29,29 +32,25 @@
     </div>
   <% end %>
 
-    <!-- Botão para criar post, visível apenas para o usuário autenticado -->
-  <% if @current_user %>
-    <div class="text-center mb-4">
-      <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
-    </div>
-  <% end %>
+  <div class="mt-4 justify-content-between">
+    <% prev_offset = params[:offset].to_i - (params[:limit] || 3).to_i %>
+    <% next_offset = params[:offset].to_i + (params[:limit] || 3).to_i %>
+
+    <% if @current_user %>
+      <div class="mb-4">
+        <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
+      </div>
+    <% end %>
+
+    <% if params[:offset].to_i > 0 %>
+      <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "btn btn-outline-primary" %>
+    <% end %>
+
+   <% if next_offset < @posts.first.total_posts %>
+      <%= link_to "Próximo", posts_path(limit: params[:limit], offset: next_offset), class: "btn btn-outline-primary" %>
+    <% end %>
+  </div>
 </div>
-
-<div class="mt-4 d-flex justify-content-between">
-  <% prev_offset = params[:offset].to_i - (params[:limit] || 3).to_i %>
-  <% next_offset = params[:offset].to_i + (params[:limit] || 3).to_i %>
-
-  <% if params[:offset].to_i > 0 %>
-    <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "btn btn-outline-primary" %>
-  <% end %>
-
-  <% if next_offset < @posts.first.total_posts %>
-  
-    <%= link_to "Próximo", posts_path(limit: params[:limit], offset: next_offset), class: "btn btn-outline-primary" %>
-  <% end %>
-</div>
-
-<% link_to "New post", new_post_path, class: "btn btn-success mt-3" %>
 
 <script>
   function toggleComments(postId) {

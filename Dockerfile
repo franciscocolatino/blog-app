@@ -17,4 +17,6 @@ RUN bundle check || bundle install
 
 COPY . ./
 
+RUN chmod +x ./entrypoints/docker-entrypoint.sh
+
 ENTRYPOINT ["./entrypoints/docker-entrypoint.sh"]

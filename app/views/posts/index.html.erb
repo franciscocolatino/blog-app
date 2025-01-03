@@ -15,7 +15,7 @@
         <p class="card-text" style="white-space: pre-wrap;">
           <%= post.content.delete_prefix('"').delete_suffix('"') %>
         </p>
-        
+
         <p class="text-muted" style="font-size: 0.8em;">
           Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
         </p>
@@ -46,7 +46,7 @@
       <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "btn btn-outline-primary" %>
     <% end %>
 
-   <% if next_offset < @posts.first.total_posts %>
+   <% if next_offset < (@posts.first&.total_posts || 0) %>
       <%= link_to "Próximo", posts_path(limit: params[:limit], offset: next_offset), class: "btn btn-outline-primary" %>
     <% end %>
   </div>

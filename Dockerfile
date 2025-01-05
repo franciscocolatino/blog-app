@@ -19,4 +19,4 @@ COPY . ./
 
 RUN chmod +x ./entrypoints/docker-entrypoint.sh
 
-ENTRYPOINT ["./entrypoints/docker-entrypoint.sh", "./entrypoints/sidekiq-entrypoint.sh"]
+ENTRYPOINT ["./entrypoints/docker-entrypoint.sh"]

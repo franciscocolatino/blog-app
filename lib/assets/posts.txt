@@ -1,0 +1,13 @@
+# Título do primeiro post
+title: Primeiro Post
+content: Este é o conteúdo do primeiro post. Ele pode conter várias linhas,
+e tudo aqui será considerado parte do conteúdo.
+
+# Título do segundo post
+title: Segundo Post
+content: Este é o conteúdo do segundo post. Ele também pode ter múltiplas linhas.
+Se necessário, você pode adicionar mais texto aqui.
+
+# Título do terceiro post
+title: Terceiro Post
+content: Outro exemplo de conteúdo. Cada post é separado por uma linha em branco.

@@ -1,0 +1,30 @@
+<div data-controller="job-polling" data-job-polling-job-id-value="<%= job.id %>" data-invoice-new-job-id-value="<%= job.id %>">
+  <div class="modal-body">
+    <p>Status: 
+      <span data-job-polling-target="status">
+        <%= job.status %>
+      </span>
+    </p>
+    <p>Erros: 
+      <span data-job-polling-target="errors">
+        <%= job.job_errors.join(', ') %>
+      </span>
+    </p>
+    <p>Progresso: 
+      <span data-job-polling-target="progress">
+        <%= job.progress %>
+      </span>
+    </p>
+    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" data-job-polling-target="progressBar" style="width: <%= job.progress %>%">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-flex justify-content-center">
+    <a href="" class="btn btn-success d-none" data-job-polling-target="linkToPosts">
+    Visualizar posts importados
+    </a>
+  </div>
+</div>
+
+

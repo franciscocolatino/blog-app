@@ -1,13 +1,19 @@
 <div id="posts" class="container d-flex flex-column gap-3">
   <h1 class="text-center display-4">Posts</h1>
   
+  <% if (notice || params[:notice]) && !params[:postIdsActionNow] %>
+    <div class="alert alert-success" role="alert">
+      <%= notice || params[:notice] %>
+    </div>
+  <% end %>
+
   <% @posts.each do |post| %>
     <div class="card">
       <div class="card-body">
 
-        <% if post.id.to_s == params[:postIdActionNow] %>
+        <% if params[:postIdsActionNow]&.split(",")&.include?(post.id.to_s) %>
           <div class="alert alert-success" role="alert">
-            <%= notice %>
+            <%= notice || params[:notice] %>
           </div>
         <% end %>
 
@@ -27,6 +33,9 @@
         </div>
         <p class="mt-3">
           <%= link_to "Editar esse post", edit_post_path(post), class: "btn btn-primary btn-sm" %>
+           <%= button_to "Excluir Post", post_path(post), 
+                method: :delete, 
+                class: "btn btn-danger" %>
         </p>
       </div>
     </div>
@@ -39,6 +48,7 @@
     <% if @current_user %>
       <div class="mb-4">
         <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
+        <%= link_to "Importar Posts", import_posts_path, class: "btn btn-success btn-lg" %>
       </div>
     <% end %>
 

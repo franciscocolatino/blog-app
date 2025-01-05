@@ -4,6 +4,14 @@
       <h1 class="text-center text-primary mb-4">Importar Posts</h1>
       <div class="card shadow-sm">
         <div class="card-body">
+
+          <div class="mb-4 text-center">
+            <p>Baixe o template de importação para garantir que o formato do arquivo esteja correto:</p>
+            <a href="/templates/posts_import.txt" class="btn btn-outline-secondary" download>
+              Baixar Template de Importação
+            </a>
+          </div>
+
           <form action="/jobs" method="post" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="file_txt" class="form-label">Escolha o arquivo txt:</label>
@@ -16,12 +24,12 @@
               </button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

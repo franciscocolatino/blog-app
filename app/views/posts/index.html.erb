@@ -32,10 +32,12 @@
           <%= render 'comments/dropdown', comments: post.comments_array, post_id: post.id %>
         </div>
         <p class="mt-3">
-          <%= link_to "Editar esse post", edit_post_path(post), class: "btn btn-primary btn-sm" %>
-           <%= button_to "Excluir Post", post_path(post), 
+          <% if @current_user %>
+            <%= link_to "Editar esse post", edit_post_path(post), class: "btn btn-primary btn-sm" %>
+            <%= button_to "Excluir Post", post_path(post), 
                 method: :delete, 
                 class: "btn btn-danger" %>
+          <% end%>
         </p>
       </div>
     </div>

@@ -6,8 +6,9 @@ class PostsController < ApplicationController
     limit = params[:limit].to_i > 0 ? params[:limit].to_i : 3
     offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0
 
-    @posts = Post.order(created_at: :desc)
-                  .select("posts.*,
+    @posts = Post.joins(:user)
+                 .order(created_at: :desc)
+                 .select("posts.*, users.name AS user_name,
                           (
                             SELECT json_agg(subquery)
                             FROM (

@@ -7,6 +7,15 @@
     </div>
   <% end %>
 
+  <div>
+    <% if @current_user %>
+      <div class="mb-4">
+        <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
+        <%= link_to "Importar Posts", import_posts_path, class: "btn btn-success btn-lg" %>
+      </div>
+    <% end %>
+  </div>
+
   <% @posts.each do |post| %>
     <div class="card">
       <div class="card-body">
@@ -18,10 +27,12 @@
         <% end %>
 
         <h2 class="card-title"><%= post.title %></h2>
+        <p class="text-muted" style="font-size: 0.9em;">
+          Criado por: <strong><%= post.user_name %></strong>
+        </p>
         <p class="card-text" style="white-space: pre-wrap;">
           <%= post.content.delete_prefix('"').delete_suffix('"') %>
         </p>
-
         <p class="text-muted" style="font-size: 0.8em;">
           Criado em: <%= post.created_at.strftime('%d/%m/%Y %H:%M') %>
         </p>
@@ -36,23 +47,17 @@
             <%= link_to "Editar esse post", edit_post_path(post), class: "btn btn-primary btn-sm" %>
             <%= button_to "Excluir Post", post_path(post), 
                 method: :delete, 
-                class: "btn btn-danger" %>
-          <% end%>
+                class: "btn btn-danger btn-sm" %>
+          <% end %>
         </p>
       </div>
     </div>
+
   <% end %>
 
   <div class="mt-4 justify-content-between">
     <% prev_offset = params[:offset].to_i - (params[:limit] || 3).to_i %>
     <% next_offset = params[:offset].to_i + (params[:limit] || 3).to_i %>
-
-    <% if @current_user %>
-      <div class="mb-4">
-        <%= link_to "Criar Novo Post", new_post_path, class: "btn btn-success btn-lg" %>
-        <%= link_to "Importar Posts", import_posts_path, class: "btn btn-success btn-lg" %>
-      </div>
-    <% end %>
 
     <% if params[:offset].to_i > 0 %>
       <%= link_to "Anterior", posts_path(limit: params[:limit], offset: prev_offset), class: "btn btn-outline-primary" %>

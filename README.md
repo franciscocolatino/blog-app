@@ -1,24 +1,34 @@
-# README
+## Pré-requisitos
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Você precisa ter as seguintes ferramentas instalados:
 
-Things you may want to cover:
+- **Docker**
 
-* Ruby version
+## Passos para Configurar e Rodar o Projeto
 
-* System dependencies
+### 1. Clone o Repositório
 
-* Configuration
+Primeiro, clone o repositório do projeto:
 
-* Database creation
+```bash
+git clone https://github.com/franciscocolatino/blog-app
+cd blog_app
+```
+### 2. Após isso, basta executar o docker:
 
-* Database initialization
+```bash
+sudo docker-compose up
+```
+### 3.Quando o docker terminar de instalar todas as dependencias, deve-se executar a criação do banco de dados
 
-* How to run the test suite
+```bash
+sudo docker-compose exec app rails db:create
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### 4. Realizamos o migrate e seed
 
-* Deployment instructions
+```bash
+sudo docker-compose exec app rails db:migrate
+```
 
-* ...
+### Pronto, aplicação funcionando!
